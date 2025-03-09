@@ -1,0 +1,19 @@
+[acknowledgments]
+== Acknowledgments
+
+The authors would like to thank the following individuals for contributing their ideas
+and support for writing this specification:
+Mattias Amnefelt,
+Mike Douglass,
+Tomas Hnetila,
+Ciny Joy,
+Barry Leiba,
+Ken Murchison,
+Simon Pilette,
+Arnaud Quillaud,
+Simon Vaillancourt, and
+Wilfredo Sanchez Vega.
+
+The authors would also like to thank CalConnect, The Calendaring and Scheduling
+Consortium, for advice with this specification, and for organizing interoperability
+testing events to help refine it.

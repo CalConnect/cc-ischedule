@@ -1,0 +1,86 @@
+[[IANA]]
+== IANA Considerations
+
+[[IANA_NS]]
+=== Namespace Registration
+
+This specification registers a new URN to identify a new XML namespace as per
+<<RFC3688>>.
+
+[[IANA_NS_ISCHEDULE]]
+==== iSchedule Namespace Registration
+
+Registration request for the iSchedule namespace:
+
+URI:: urn:ietf:params:xml:ns:ischedule
+
+Registrant Contact:: See the "Authors' Addresses" section of this document.
+
+XML:: None. Namespace URIs do not represent an XML specification.
+
+[[IANA_HTTP]]
+=== HTTP Headers Registration
+
+This specification registers new headers for use with HTTP as per <<RFC3864>>.
+
+[[IANA_HTTP_ISCHEDULE_VERSION]]
+==== iSchedule-Version General Header Registration
+
+Header field name:: iSchedule-Version
+Applicable protocol:: http
+Status:: standard
+Author/Change controller:: IETF
+Specification document(s):: this specification
+Related information:: none
+
+[[IANA_HTTP_ISCHEDULE_CAPABILITIES]]
+==== iSchedule-Capabilities Response Header Registration
+
+Header field name:: iSchedule-Capabilities
+Applicable protocol:: http
+Status:: standard
+Author/Change controller:: IETF
+Specification document(s):: this specification
+Related information:: none
+
+[[IANA_HTTP_ISCHEDULE_MESSAGE_ID]]
+==== iSchedule-Message-ID Request Header Registration
+
+Header field name:: iSchedule-Message-ID
+Applicable protocol:: http
+Status:: standard
+Author/Change controller:: IETF
+Specification document(s):: this specification
+Related information:: none
+
+[[IANA_HTTP_ORIGINATOR]]
+==== Originator Request Header Registration
+
+Header field name:: Originator
+Applicable protocol:: http
+Status:: standard
+Author/Change controller:: IETF
+Specification document(s):: this specification
+Related information:: none
+
+[[IANA_HTTP_RECIPIENT]]
+==== Recipient Request Header Registration
+
+Header field name:: Recipient
+Applicable protocol:: http
+Status:: standard
+Author/Change controller:: IETF
+Specification document(s):: this specification
+Related information:: none
+
+=== Well-Known URI Registration
+
+This specification registers a new well-known URI as per <<RFC5785>>.
+
+[[IANA.WELL-KNOWN-URI]]
+==== iSchedule Well-Known URI Registration
+
+URI suffix:: ischedule
+Change controller:: IETF.
+Specification document(s):: this specification
+Related information:: none

@@ -1,0 +1,60 @@
+= Internet Calendar Scheduling Protocol (iSchedule)
+:docnumber: 51010
+:copyright-year: 2017
+:language: en
+:doctype: standard
+:edition: 1
+:status: working-draft
+:revdate: 2017-01-01
+:published-date: 2017-01-01
+:technical-committee: CALENDAR
+:fullname: Cyrus Daboo
+:surname: Daboo
+:givenname: Cyrus
+:affiliation: Apple Inc.
+:fullname_2: Bernard Desruisseaux
+:surname_2: Desruisseaux
+:givenname_2: Bernard
+:affiliation_2: Oracle Corporation
+:fullname_3: Kenneth Murchison
+:surname_3: Murchison
+:givenname_3: Kenneth
+:affiliation_3: Carnegie Mellon University
+:mn-document-class: cc
+:mn-output-extensions: xml,html,pdf,rxl
+:local-cache-only:
+:data-uri-image:
+
+include::sections/00-abstract.adoc[]
+
+include::sections/01-intro.adoc[]
+
+include::sections/01-scope.adoc[]
+
+include::sections/02-normative-references.adoc[]
+
+include::sections/03-terms.adoc[]
+
+include::sections/04-model.adoc[]
+
+include::sections/05-overview.adoc[]
+
+include::sections/06-discovery.adoc[]
+
+include::sections/07-capabilities.adoc[]
+
+include::sections/08-scheduling.adoc[]
+
+include::sections/09-http-headers.adoc[]
+
+include::sections/10-xml-elements.adoc[]
+
+include::sections/11-security.adoc[]
+
+include::sections/12-iana.adoc[]
+
+include::sections/aa-examples.adoc[]
+
+include::sections/99-acknowledgements.adoc[]
+
+include::sections/99-bibliography.adoc[]

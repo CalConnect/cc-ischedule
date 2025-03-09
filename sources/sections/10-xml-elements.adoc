@@ -1,0 +1,429 @@
+[[xml-elements]]
+== XML Element Definitions
+
+[[schedule_response_element]]
+=== schedule-response XML Element
+
+Name:: schedule-response
+Namespace:: urn:ietf:params:xml:ns:ischedule
+Purpose:: Contains the set of responses for a POST method request.
+Description:: See <<schedule-response>>.
+Definition::
++
+[source%unnumbered,xml]
+----
+<!ELEMENT schedule-response (response*)>
+----
+
+[[response_element]]
+==== response XML Element
+
+Name:: response
+Namespace:: urn:ietf:params:xml:ns:ischedule
+Purpose:: Contains a single response for a POST method request.
+Description:: See <<schedule-response>>.
+Definition::
++
+[source%unnumbered,xml]
+----
+<!ELEMENT response (recipient,
+                   request-status,
+                   calendar-data?,
+                   error?,
+                   response-description?)>
+----
+
+[[recipient_element]]
+===== recipient XML Element
+
+Name:: recipient
+Namespace:: urn:ietf:params:xml:ns:ischedule
+Purpose:: The calendar user address (recipient header value) that the enclosing response for a POST method request is for.
+Description:: See <<schedule-response>>.
+Definition::
++
+[source%unnumbered,xml]
+----
+<!ELEMENT recipient (#PCDATA)>
+----
+
+[[response_status_element]]
+===== request-status XML Element
+
+Name:: request-status
+Namespace:: urn:ietf:params:xml:ns:ischedule
+Purpose:: The iTIP REQUEST-STATUS property value for this response.
+Description:: See <<schedule-response>>.
+Definition::
++
+[source%unnumbered,xml]
+----
+<!ELEMENT request-status (#PCDATA)>
+----
+
+===== calendar-data XML Element
+
+Name:: calendar-data
+Namespace:: urn:ietf:params:xml:ns:ischedule
+Purpose:: An iCalendar object in a response to a search for busy time information.
+Description:: See <<schedule-response>>.
+Definition::
++
+[source%unnumbered,xml]
+----
+<!ELEMENT calendar-data (#PCDATA)>
+<!ATTLIST calendar-data content-type CDATA "text/calendar"
+                        version CDATA "2.0">
+<!-- content-type value: a MIME media type -->
+<!-- version value: a version string -->
+----
+
+===== error XML Element
+
+Name:: error
+Namespace:: urn:ietf:params:xml:ns:ischedule
+Purpose:: Error responses sometimes need more information to indicate what went wrong.
+Description:: See <<schedule-response>>.
+Definition::
++
+[source%unnumbered,xml]
+----
+<!ELEMENT error ANY>
+----
+
+===== response-description XML Element
+
+Name:: response-description
+Namespace:: urn:ietf:params:xml:ns:ischedule
+Purpose:: Contains information about a status response
+Description:: See <<schedule-response>>.
+Definition::
++
+[source%unnumbered,xml]
+----
+<!ELEMENT response-description (#PCDATA)>
+----
+
+=== query-result XML Element
+
+Name:: query-result
+Namespace:: urn:ietf:params:xml:ns:ischedule
+Purpose:: Contains result of a query request.
+Description:: A generic container for the result of a query request, such as a query of the capabilities of an iSchedule Receiver.
+Definition::
++
+[source%unnumbered,xml]
+----
+<!ELEMENT query-result (capabilities)>
+----
+
+==== capabilities XML Element
+
+Name:: capabilities
+Namespace:: urn:ietf:params:xml:ns:ischedule
+Purpose:: Contains iSchedule Receiver capabilities.
+Description:: The capabilities element contains capabilities of the iSchedule Receiver.
+Definition::
++
+[source%unnumbered,xml]
+----
+<!ELEMENT capabilities (
+    serial-number,
+    versions,
+    scheduling-messages,
+    calendar-data-types,
+    attachments,
+    rscales,
+    max-content-length,
+    min-date-time,
+    max-date-time,
+    max-instances,
+    max-recipients,
+    administrator) >
+----
+
+[[capabilities_serial_number]]
+===== serial-number XML Element
+
+Name:: serial-number
+Namespace:: urn:ietf:params:xml:ns:ischedule
+Purpose:: Identifies the version of the capabilities information.
+Description:: This is a numeric value maintained by the iSchedule Receiver. The
+value is incremented by the iSchedule Receiver each time there has been a
+substantive change to the capabilities that would require an iSchedule Sender to
+reload the capabilities to adjust its behavior. The value of this element MUST be
+returned by the iSchedule Receiver in all HTTP requests via the
+<<ischedule-capabilities.header,"iSchedule-Capabilities" response header>>. This
+allows iSchedule Senders to detect changes to the iSchedule Receiver's capabilities
+during the normal course of making requests, without the need to poll the iSchedule
+Receiver for such changes.
+Definition::
++
+[source%unnumbered,xml]
+----
+<!ELEMENT serial-number (#PCDATA)>
+<!-- PCDATA value: a numeric value (positive integer) -->
+----
+
+===== versions XML Element
+
+Name:: versions
+Namespace:: urn:ietf:params:xml:ns:ischedule
+Purpose:: Identifies the iSchedule versions supported by the iSchedule Receiver.
+Description:: An iSchedule Receiver MAY advertise support for multiple versions of
+the iSchedule protocol. iSchedule Senders check this value to ensure they can send
+iSchedule messages with a matching version.
+Definition::
++
+[source%unnumbered,xml]
+----
+<!ELEMENT versions (version)+>
+----
+
+====== version XML Element
+
+Name:: version
+Namespace:: urn:ietf:params:xml:ns:ischedule
+Purpose:: Identifies an iSchedule protocol version.
+Definition::
++
+[source%unnumbered,xml]
+----
+<!ELEMENT version (#PCDATA)>
+<!-- PCDATA value: version number -->
+----
+
+===== scheduling-messages XML Element
+
+Name:: scheduling-messages
+Namespace:: urn:ietf:params:xml:ns:ischedule
+Purpose:: Identifies the type of supported scheduling messages.
+Description:: An iSchedule Receiver advertises which iCalendar component types it
+will accept for iTIP messages sent to it. In addition, for each component, it can
+specify the allowed iTIP "METHOD" property values.
+Definition::
++
+[source%unnumbered,xml]
+----
+<!ELEMENT scheduling-messages (component)+>
+----
+
+====== component XML Element
+
+Name:: component
+Namespace:: urn:ietf:params:xml:ns:ischedule
+Purpose:: Identifies a calendar component type.
+Description:: Used to specify a supported iCalendar component type for scheduling
+messages. If a IS:method child element is not present, then any iTIP "METHOD"
+property value can be used in iTIP messages sent to the iSchedule Receiver. If one
+or more IS:method elements are present, then those indicate the allowed set of iTIP
+"METHOD" property values.
+Definition::
++
+[source%unnumbered,xml]
+----
+<!ELEMENT component (method)*>
+
+<!ATTLIST component name CDATA #REQUIRED>
+<!-- name value: a calendar component name -->
+----
+
+[level=6]
+====== method XML Element
+
+Name:: method
+Namespace:: urn:ietf:params:xml:ns:ischedule
+Purpose:: Identifies an iCalendar method type.
+Description:: See IS:component.
+Definition::
++
+[source%unnumbered,xml]
+----
+<!ELEMENT method EMPTY>
+
+<!ATTLIST method name CDATA #REQUIRED>
+<!-- name value: a method type -->
+----
+
+===== calendar-data-types XML Element
+
+Name:: calendar-data-types
+Namespace:: urn:ietf:params:xml:ns:ischedule
+Purpose:: Identifies what formats of iCalendar data are acceptable.
+Definition::
++
+[source%unnumbered,xml]
+----
+<!ELEMENT calendar-data-types (calendar-data-type)+>
+----
+
+====== calendar-data-type XML Element
+
+Name:: calendar-data-type
+Namespace:: urn:ietf:params:xml:ns:ischedule
+Purpose:: Identifies a supported media type and version for iTIP messages.
+Definition::
++
+[source%unnumbered,xml]
+----
+<!ELEMENT calendar-data-type EMPTY>
+
+<!ATTLIST calendar-data-type content-type CDATA "text/calendar"
+                             version CDATA "2.0">
+<!-- content-type value: a MIME media type -->
+<!-- version value: a version string -->
+----
+
+===== attachments XML Element
+
+Name:: attachments
+Namespace:: urn:ietf:params:xml:ns:ischedule
+Purpose:: Identifies the attachment values supported.
+Description:: iSchedule Receivers might restrict what form of attachments are
+allowed in iTIP messages that are sent to it, for performance, or security reasons.
+In iCalendar data, attachments can either be specified using "inline" data in the
+form of a base64 encoded property value, or "external" data in the form of a URI
+property value. With this capability, an iSchedule Receiver can specify which of
+"inline" or "external" values it will accept in iTIP messages. See
+<<security_attachments>> for additional details.
+Definition::
++
+[source%unnumbered,xml]
+----
+<!ELEMENT attachments (inline?, external?)>
+----
+
+====== inline XML Element
+
+Name:: inline
+Namespace:: urn:ietf:params:xml:ns:ischedule
+Purpose:: Identifies "inline" attachments as a supported attachment value.
+Definition::
++
+[source%unnumbered,xml]
+----
+<!ELEMENT inline EMPTY>
+----
+
+====== external XML Element
+
+Name:: external
+Namespace:: urn:ietf:params:xml:ns:ischedule
+Purpose:: Identifies "external" attachments as a supported attachment value.
+Definition::
++
+[source%unnumbered,xml]
+----
+<!ELEMENT external EMPTY>
+----
+
+===== rscales XML Element
+
+Name:: rscales
+Namespace:: urn:ietf:params:xml:ns:ischedule
+Purpose:: Identifies the "RSCALE" values supported.
+Description:: iSchedule Receivers might support the <<RFC7529,iCalendar "RSCALE">>
+element on the "RRULE" property. The iSchedule Receiver can advertise what "RSCALE"
+values are supported via the IS:rscales element.
+Definition::
++
+[source%unnumbered,xml]
+----
+<!ELEMENT rscales (rscale*)>
+----
+
+====== rscale XML Element
+
+Name:: rscale
+Namespace:: urn:ietf:params:xml:ns:ischedule
+Purpose:: Indicates a supported "RSCALE" value.
+Definition::
++
+[source%unnumbered,xml]
+----
+<!ELEMENT rscale (#PCDATA)>
+----
+
+===== max-content-length XML Element
+
+Name:: max-content-length
+Namespace:: urn:ietf:params:xml:ns:ischedule
+Purpose:: Identifies the maximum size allowed for a scheduling message in octets.
+Definition::
++
+[source%unnumbered,xml]
+----
+<!ELEMENT max-content-length (#PCDATA)>
+<!-- PCDATA value: a numeric value (positive integer) -->
+----
+
+===== min-date-time XML Element
+
+Name:: min-date-time
+Namespace:: urn:ietf:params:xml:ns:ischedule
+Purpose:: A DATE-TIME value indicating the earliest date and time in UTC that the
+iSchedule Receiver is willing to accept for any DATE or DATE-TIME value in a
+scheduling message.
+Definition::
++
+[source%unnumbered,xml]
+----
+<!ELEMENT min-date-time (#PCDATA)>
+<!-- PCDATA value: an iCalendar format DATE-TIME value in UTC -->
+----
+
+===== max-date-time XML Element
+
+Name:: max-date-time
+Namespace:: urn:ietf:params:xml:ns:ischedule
+Purpose:: A DATE-TIME value indicating the latest date and time in UTC that the
+iSchedule Receiver is willing to accept for any DATE or DATE-TIME value in a
+scheduling message.
+Definition::
++
+[source%unnumbered,xml]
+----
+<!ELEMENT max-date-time (#PCDATA)>
+<!-- PCDATA value: an iCalendar format DATE-TIME value in UTC -->
+----
+
+===== max-instances XML Element
+
+Name:: max-instances
+Namespace:: urn:ietf:params:xml:ns:ischedule
+Purpose:: The maximum number of recurrence instances allowed in a scheduling message.
+Definition::
++
+[source%unnumbered,xml]
+----
+<!ELEMENT max-instances (#PCDATA)>
+<!-- PCDATA value: a numeric value (positive integer) -->
+----
+
+[[max-recipients]]
+===== max-recipients XML Element
+
+Name:: max-recipients
+Namespace:: urn:ietf:params:xml:ns:ischedule
+Purpose:: The maximum number of recipients allowed for a scheduling message.
+Definition::
++
+[source%unnumbered,xml]
+----
+<!ELEMENT max-recipients (#PCDATA)>
+<!-- PCDATA value: a numeric value (positive integer) -->
+----
+
+===== administrator XML Element
+
+Name:: administrator
+Namespace:: urn:ietf:params:xml:ns:ischedule
+Purpose:: Provides contact information for the administrator of the iSchedule
+Receiver.
+Definition::
++
+[source%unnumbered,xml]
+----
+<!ELEMENT administrator (#PCDATA)>
+<!-- PCDATA value: URI to contact administrator -->
+----

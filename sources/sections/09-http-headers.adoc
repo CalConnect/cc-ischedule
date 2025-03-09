@@ -1,0 +1,85 @@
+[[http.headers]]
+== HTTP Headers
+
+This section defines the syntax and semantics of additional HTTP/1.1 header fields.
+
+The header's syntax uses the optional whitespace (OWS) rule defined as follows:
+
+[source%unnumbered]
+----
+OWS = *( [ CRLF ] WSP )
+----
+
+[[ischedule-version.header]]
+=== iSchedule-Version General Header
+
+The "iSchedule-Version" general header field MUST be specified by the iSchedule
+Sender on requests, and by the iSchedule Receiver on responses. It SHOULD be
+included in a response to any "OPTIONS *" HTTP request targeting the iSchedule
+Receiver, or any "OPTIONS" request on a resource supporting the iSchedule behaviors
+described in this specification (e.g., the .well-known resource or any resource that
+.well-known redirects to).
+
+[source%unnumbered]
+----
+iSchedule-Version      = "iSchedule-Version" ":" OWS
+                         iSchedule-Version-v
+iSchedule-Version-v    = iSchedule-Version-elem
+                         *( OWS "," OWS iSchedule-Version-elem )
+iSchedule-Version-elem =  1*DIGIT "." 1*DIGIT
+----
+
+[[ischedule-capabilities.header]]
+=== iSchedule-Capabilities Response Header
+
+The "iSchedule-Capabilities" response header field MUST be specified by the
+iSchedule Receiver on all responses. iSchedule Senders SHOULD cache this value and
+use it to detect a change in the iSchedule Receiver capabilities that cause the
+iSchedule Sender to reload capabilities. The value of this header is maintained by
+the iSchedule Receiver as described in <<capabilities_serial_number>>.
+
+[source%unnumbered]
+----
+iSchedule-Capabilities = "iSchedule-Capabilities" ":" OWS 1*DIGIT
+----
+
+[[ischedule-message-id.header]]
+=== iSchedule-Message-ID Request Header
+
+The "iSchedule-Message-ID" request header field SHOULD be specified by the iSchedule
+Sender on requests. This header provides a unique identifier that refers to the
+specific iSchedule request in which it is included. The uniqueness of this
+identifier is guaranteed by the iSchedule Sender that generates it. This identifier
+is intended to be machine readable and not necessarily meaningful to humans.
+
+[source%unnumbered]
+----
+iSchedule-Message-ID   = "iSchedule-Message-ID" ":" OWS token
+----
+
+[[originator.header]]
+=== Originator Request Header
+
+The "Originator" request header value is a URI which specifies the calendar user
+address of the originator of the scheduling message. Note that the absoluteURI rule
+is defined in <<RFC3986>>.
+
+[source%unnumbered]
+----
+Originator   = "Originator" ":" OWS Originator-v
+Originator-v = absoluteURI
+----
+
+[[recipient.header]]
+=== Recipient Request Header
+
+The "Recipient" request header value is a URI which specifies the calendar user
+address of the recipients to which the POST method should deliver the submitted
+scheduling message. Note that the absoluteURI rule is defined in <<RFC3986>>.
+
+[source%unnumbered]
+----
+Recipient      = "Recipient" ":" OWS Recipient-v
+Recipient-v    = Recipient-elem *( OWS "," OWS Recipient-elem )
+Recipient-elem = absoluteURI
+----

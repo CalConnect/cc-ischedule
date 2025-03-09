@@ -1,0 +1,205 @@
+[[examples]]
+[appendix]
+== Example Scheduling Transactions
+
+This section describes some example scheduling transactions that give a general idea
+of how scheduling is carried out between an iSchedule Sender and an iSchedule
+Receiver.
+
+[[schedule-example]]
+=== Example: Simple Meeting Invitation
+
+In the following example, the iSchedule Sender requests the iSchedule Receiver to
+deliver a meeting invitation (scheduling REQUEST) to the calendar user
+mailto:cyrus@example.org. The response indicates that delivery of the scheduling
+message was successful.
+
+.>> Request <<
+[source%unnumbered]
+----
+POST /.well-known/ischedule HTTP/1.1
+Host: cal.example.org
+iSchedule-Version: 1.0
+iSchedule-Message-ID: 798F00BB-5B45-4634-B083-0D0CD3A2BB39
+Originator: mailto:bernard@example.com
+Recipient: mailto:cyrus@example.org
+Cache-Control: no-cache, no-transform
+Content-Type: text/calendar; component=VEVENT; method=REQUEST
+Content-Length: xxxx
+
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Example Corp.//EN
+METHOD:REQUEST
+BEGIN:VEVENT
+DTSTAMP:20040901T200200Z
+ORGANIZER:mailto:bernard@example.com
+DTSTART:20040902T130000Z
+DTEND:20040902T140000Z
+SUMMARY:Design meeting
+UID:34222-232@example.com
+ATTENDEE;PARTSTAT=ACCEPTED;ROLE=CHAIR;CUTYPE=IND
+ IVIDUAL;CN=Bernard Desruisseaux:mailto:bernard@
+ example.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;ROLE=RE
+ Q-PARTICIPANT;CUTYPE=INDIVIDUAL;CN=Cyrus Daboo:
+ mailto:cyrus@example.org
+END:VEVENT
+END:VCALENDAR
+----
+
+.>> Response <<
+[source%unnumbered]
+----
+HTTP/1.1 200 OK
+Date: Thu, 02 Sep 2004 16:53:32 GMT
+Content-Type: application/xml; charset=utf-8
+Content-Length: xxxx
+Cache-Control: no-cache, no-transform
+iSchedule-Version: 1.0
+iSchedule-Capabilities: 123
+
+<?xml version="1.0" encoding="utf-8" ?>
+<schedule-response xmlns="urn:ietf:params:xml:ns:ischedule">
+  <response>
+    <recipient>mailto:cyrus@example.org</recipient>
+    <request-status>2.0;Success</request-status>
+    <response-description>Delivered to recipient</response-description>
+  </response>
+</schedule-response>
+----
+
+[[schedule-fb-example]]
+=== Example: Search for Busy Time Information
+
+In the following example, the iSchedule Sender requests the iSchedule Receiver to
+determine the busy information of the calendar users mailto:cyrus@example.org and
+mailto:mike@example.org, over the time range specified by the scheduling message
+sent in the request. The response includes VFREEBUSY components with the busy time
+for one calendar user, and an error for the other calendar user.
+
+.>> Request <<
+[source%unnumbered]
+----
+POST /.well-known/ischedule HTTP/1.1
+Host: cal.example.org
+iSchedule-Version: 1.0
+iSchedule-Message-ID: A98ADF24-9490-4F01-81C8-FE924F86A9FD
+Originator: mailto:bernard@example.com
+Recipient: mailto:cyrus@example.org
+Recipient: mailto:mike@example.org
+Cache-Control: no-cache, no-transform
+Content-Type: text/calendar; component=VFREEBUSY; method=REQUEST
+Content-Length: xxxx
+
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Example Corp.//EN
+METHOD:REQUEST
+BEGIN:VFREEBUSY
+DTSTAMP:20040901T200200Z
+ORGANIZER:mailto:bernard@example.com
+DTSTART:20040902T000000Z
+DTEND:20040903T000000Z
+UID:34222-232@example.com
+ATTENDEE;CN=Cyrus Daboo:mailto:cyrus@example.org
+ATTENDEE;CN=Mike Douglass:mailto:mike@example.org
+END:VFREEBUSY
+END:VCALENDAR
+----
+
+.>> Response <<
+[source%unnumbered]
+----
+HTTP/1.1 200 OK
+Date: Thu, 02 Sep 2004 16:53:32 GMT
+Content-Type: application/xml; charset=utf-8
+Content-Length: xxxx
+Cache-Control: no-cache, no-transform
+iSchedule-Version: 1.0
+iSchedule-Capabilities: 123
+
+<?xml version="1.0" encoding="utf-8" ?>
+<schedule-response xmlns="urn:ietf:params:xml:ns:ischedule">
+  <response>
+    <recipient>mailto:cyrus@example.org</recipient>
+    <request-status>2.0;Success</request-status>
+    <calendar-data>BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Example Corp.//EN
+METHOD:REPLY
+BEGIN:VFREEBUSY
+DTSTAMP:20040901T200200Z
+ORGANIZER:mailto:bernard@example.com
+DTSTART:20040902T000000Z
+DTEND:20040903T000000Z
+UID:34222-232@example.com
+ATTENDEE;CN=Cyrus Daboo:mailto:cyrus@example.org
+FREEBUSY;FBTYPE=BUSY-UNAVAILABLE:20040902T000000Z/
+ 20040902T090000Z,20040902T170000Z/20040903T000000Z
+FREEBUSY;FBTYPE=BUSY:20040902T120000Z/20040902T130000Z
+END:VFREEBUSY
+END:VCALENDAR
+    </calendar-data>
+  </response>
+  <response>
+    <recipient>mailto:mike@example.org</recipient>
+    <request-status>5.3;No scheduling support for user</request-status>
+    <response-description>Unknown calendar user</response-description>
+  </response>
+</schedule-response>
+----
+
+[[schedule-example-task]]
+=== Example: Failed Request
+
+In the following example, the iSchedule Sender requests the iSchedule Sender to
+deliver a task assignment (scheduling REQUEST) to the calendar user
+mailto:cyrus@example.org. For some reason the verification of the request fails as
+is indicated by the error response.
+
+.>> Request <<
+[source%unnumbered]
+----
+POST /.well-known/ischedule HTTP/1.1
+Host: cal.example.org
+iSchedule-Version: 1.0
+Originator: mailto:bernard@example.com
+Recipient: mailto:cyrus@example.org
+Cache-Control: no-cache, no-transform
+Content-Type: text/calendar; component=VTODO; method=REQUEST
+Content-Length: xxxx
+
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Example Corp.//CalDAV Client//EN
+METHOD:REQUEST
+BEGIN:VTODO
+DTSTAMP:20040901T200200Z
+ORGANIZER:mailto:bernard@example.com
+DUE:20070505
+SUMMARY:Review Internet-Draft
+UID:34222-456@example.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;ROLE=RE
+ Q-PARTICIPANT;CUTYPE=INDIVIDUAL;CN=Cyrus Daboo:
+ mailto:cyrus@example.org
+END:VEVENT
+END:VCALENDAR
+----
+
+.>> Response <<
+[source%unnumbered]
+----
+HTTP/1.1 403 FORBIDDEN
+Date: Thu, 02 Sep 2004 16:53:32 GMT
+Content-Type: application/xml; charset=utf-8
+Content-Length: xxxx
+iSchedule-Version: 1.0
+iSchedule-Capabilities: 123
+
+<?xml version="1.0" encoding="utf-8" ?>
+<error xmlns="urn:ietf:params:xml:ns:ischedule">
+  <verification-failed />
+  <response-description>Unable to verify request</response-description>
+</error>
+----
