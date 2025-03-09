@@ -1,6 +1,6 @@
 = CalConnect Standard: Internet Calendar Scheduling Protocol (iSchedule)
 
-This work item belongs to CalConnect (SCHEDULING TC).
+This work item belongs to CalConnect TC CALENDAR.
 
 image:https://github.com/CalConnect/cc-ischedule/workflows/generate/badge.svg["Build Status", link="https://github.com/CalConnect/cc-ischedule/actions?workflow=generate"]
 
