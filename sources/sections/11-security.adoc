@@ -1,0 +1,34 @@
+[[security]]
+== Security Considerations
+
+The process of scheduling involves the sending and receiving of scheduling messages.
+As a result, the security problems related to messaging in general are relevant
+here. In particular the authenticity of the scheduling messages needs to be verified.
+
+=== Privacy
+
+iSchedule Senders and iSchedule Receivers MUST use an HTTP connection protected with
+TLS <<RFC5246>> as defined in <<RFC2818>> for all transactions.
+
+=== Authentication
+
+=== DNS Considerations
+
+DNS security issues are addressed by DNSSEC <<RFC4033>>.
+
+[[security_attachments]]
+=== Attachment Considerations
+
+iCalendar data can include "inline" attachment data in the form of a base64-encoded
+"ATTACH" property value. iSchedule Receivers MUST take care when allowing "inline"
+attachments in scheduling messages as such data might contain malicious content, and
+SHOULD use some form of content scanner on the attachment data to verify its safety
+(e.g., a content scanner used for email messages). In addition, "inline" attachment
+data is likely to be much larger than the actual calendar-related data in a
+scheduling message, and thus could adversely affect the performance of an iSchedule
+Receiver processing it. If an iSchedule Receiver allows "inline" attachment data, it
+MUST apply a limit on the size of acceptable scheduling messages to prevent possible
+denial-of-service attacks using large "inline" attachment data. In general, it is
+best for iSchedule Receivers to simply disable the ability for scheduling messages
+to contain "inline" attachment data, and instead rely solely on "external"
+attachments in the form of URI attachment values.

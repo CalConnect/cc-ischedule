@@ -1,0 +1,109 @@
+[appendix]
+== metanorma-extension
+
+=== document history
+
+[EDITOR]
+====
+to be removed by RFC Editor prior to publication
+====
+
+[source,yaml]
+----
+- date:
+  - type: updated
+  edition: 06
+  amend:
+    - description: |
+        Added Ken as editor.
+
+        Updated references.
+
+        Removed DKIM requirement (may be moved to separate document.
+
+        IS:calendar-data element now includes a content-type attribute and the POST response media type must match the one in the request.
+
+        Added IS:rscales to allow receivers to advertise support RSCALE values.
+
+        Updated verification requirements.
+- date:
+  - type: updated
+  edition: 05
+  amend:
+    - description: |
+        Fixed missing Recipient header in example.
+
+        Added statements about what happens when a signature is or is not valid.
+
+        Removed _ischedule SRV record type as we only support HTTPS.
+
+        Removed text about adding an extra Recipient header as we no longer need that.
+- date:
+  - type: updated
+  edition: 04
+  amend:
+    - description: |
+        Added some addition error codes to match MUST requirements.
+
+        Free busy example now shows a failed calendar user response.
+
+        Fixed capabilities response example to add method elements for VTODO and VFREEBUSY.
+
+        More details added to XML element definitions.
+- date:
+  - type: updated
+  edition: 03
+  amend:
+    - description: |
+        Removed http= tag from DKIM header.
+
+        Updated lists of must and must not sign headers.
+
+        Stated that Recipient list must match ATTENDEE list for VFREEBUSY requests.
+
+        Recommend 5 minute skew for t=.
+
+        Added serial-number to capabilities and iSchedule-Capabilities response header.
+
+        Added "ischedule-relaxed" header canonicalization.
+
+        Fixed examples.
+- date:
+  - type: updated
+  edition: 02
+  amend:
+    - description: |
+        Major structural changes as well as addition of new sections, including an Overview.
+
+        Changed capabilities XML schema.
+
+        XML error elements are now named for the actual error as opposed to WebDAV style pre-conditions.
+
+        Removed intermediary support and iSchedule-Via header.
+
+        Added TXT path= lookup to accompany SRV lookup.
+
+        Added http/well-known public key lookup mechanism.
+
+        Added iSchedule-Message-ID header.
+
+        Provided suggested values for t= and x= to cope with clock skew and processing time issues.
+
+        Indicated that iSchedule-Version header can be returned in OPTIONS responses.
+
+        Clarified that Attendee list for VFREEBUSY has to be the same as the Recipient list.
+- date:
+  - type: updated
+  edition: 01
+  amend:
+    - description: |
+        Introduced use of DKIM for calendaring and scheduling services.
+
+        The XML elements "supported-calendar-data" and "calendar-data" were renamed to "supported-calendar-data-type" and "calendar-data-type" respectively to avoid confusion with the "calendar-data" XML element being used in the "response" XML element.
+
+        The "recipient" XML element was redefined to accept (#PCDATA) instead of an "href" XML element.
+
+        The grammar of new HTTP headers is now using the ABNF syntax defined in <<RFC5234>>.
+
+        Fixed various typos.
+----

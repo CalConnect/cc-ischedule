@@ -2,10 +2,9 @@
 metanorma:
   source:
     files:
-      - sources/cc-51008/document.adoc
-      - sources/ietf/document.adoc
-      - sources/iso-51008/document.adoc
+      - sources/cc-51010.adoc
+      - sources/draft-desruisseaux-ischedule.adoc
 
   collection:
-    name: vObject and vFormat
+    name: Internet Calendar Scheduling Protocol (iSchedule)
     organization: CalConnect

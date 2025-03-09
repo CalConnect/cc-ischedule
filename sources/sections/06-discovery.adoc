@@ -1,0 +1,102 @@
+[[discovery]]
+== iSchedule Receiver Discovery
+
+This section describes how an iSchedule Sender can discover the host name, port, and
+the path to use to submit an HTTP request to an iSchedule Receiver.
+
+For each Recipient to whom a scheduling message is being sent, the iSchedule Sender
+will "resolve" the associated calendar user address into a domain name, as per
+<<cu-address-resolve>>.
+
+The iSchedule Sender then uses the extracted domain name to issue a DNS SRV query
+for the <<srv-type,iSchedule service>> expected to be hosted at the domain.
+
+The result of an SRV record lookup will be a target host name and a port, as per
+<<RFC2782>>. An iSchedule Sender uses these to contact the iSchedule Receiver.
+iSchedule Senders MUST honor the full behavior of SRV records, in particular the
+TTL, Priority and Weight options in the record, as well as handling multiple records
+being returned, as per <<RFC2782>>.
+
+Since an iSchedule Receiver is an HTTP server, an iSchedule Sender needs to supply a
+Request-URI in the HTTP request it makes to the iSchedule Receiver, in addition to
+the host name and port information. iSchedule Senders MUST use the path specified in
+any TXT records accompanying the SRV record (as per <<TXT>>), or in the absence of a
+matching TXT record, MUST use the .well-known URI (as per <<well-known>>).
+
+[[cu-address-resolve]]
+=== Resolving Calendar User Addresses
+
+To deliver a scheduling message via the iSchedule protocol, an iSchedule Sender
+needs to determine which iSchedule Receiver to use for a particular recipient. Each
+recipient's calendar user address is specified in one or more Recipient request
+headers.
+
+A calendar user address as defined by iCalendar is simply a URI. This is typically a
+mailto URI, but could potentially be any URI type. However, only URIs containing a
+"host" element can be used to extract the necessary information to locate an
+iSchedule Receiver.
+
+To get the SRV record name to query for a given mailto URI, the "domain" portion of
+the mailto URI is extracted and appended to the service label "_ischedules._tcp.".
+
+Example::
++
+[source%unnumbered]
+----
+Calendar User Address:  mailto:cyrus@example.com
+
+Query SRV Record Name: _ischedules._tcp.example.com
+----
+
+In cases where the "domain" portion of the mailto URI contains one or more levels of
+sub-domain, iSchedule Senders MAY choose to remove successive levels of "sub-domain"
+if queries for that sub-domain fail to return any SRV records. For example, a mailto
+URI with the full domain "host.calendar.example.com" would first trigger a query
+using the domain "host.calendar.example.com", then if that failed, the domain
+"calendar.example.com" would be tried, then if that failed the domain "example.com"
+would be tried.
+
+[[srv-type]]
+=== iSchedule SRV Service Type
+
+This specification adds an SRV service label for use with iSchedule:
+
+ischedules:: Identifies an iSchedule Receiver that uses HTTP with transport layer
+security (<<RFC2818>>).
+
+Example:: service record for iSchedule Receiver with transport layer security
++
+[source%unnumbered]
+----
+_ischedules._tcp.example.com. IN SRV 0 1 443 ischedule.example.com.
+----
+
+[[TXT]]
+=== iSchedule Service TXT Records
+
+When SRV RRs are used to advertise iSchedule services, it is also convenient to be
+able to specify a "context path" in the DNS to be retrieved at the same time. To
+enable that, this specification uses a TXT RR that follows the syntax defined in
+<<RFC6763,section=6>> and defines a "path" key for use in that record. The value of
+the key MUST be the actual "context path" to the corresponding service on the
+iSchedule Receiver.
+
+A site might provide TXT records in addition to SRV records for the service. When
+present, iSchedule Senders MUST use the "path" value as the "context path" for the
+service in HTTP requests. When not present, iSchedule Senders use the ".well-known"
+URI approach described next.
+
+Example:: text record for service with TLS
++
+[source%unnumbered]
+----
+_ischedules._tcp    TXT path=/ischedule
+----
+
+[[well-known]]
+=== iSchedule Receiver Request-URI
+
+This specification registers a well-known URI <<RFC5785>> for the iSchedule service,
+namely, "ischedule" (see
+<<IANA.WELL-KNOWN-URI>>). iSchedule Receivers MUST support requests targeted at this
+well-known URI. iSchedule Senders MUST handle HTTP redirects on this well-known URI.

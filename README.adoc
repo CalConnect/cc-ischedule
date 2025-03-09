@@ -1,22 +1,21 @@
-= CalConnect Standard: (TITLE)
+= CalConnect Standard: Internet Calendar Scheduling Protocol (iSchedule)
 
-This work item belongs to CalConnect (TCs).
+This work item belongs to CalConnect (SCHEDULING TC).
 
 image:https://github.com/CalConnect/cc-ischedule/workflows/generate/badge.svg["Build Status", link="https://github.com/CalConnect/cc-ischedule/actions?workflow=generate"]
 
 This document is available in its rendered forms here:
 
-* https://calconnect.github.io/cc-ischedule/[CalConnect: Calendaring and scheduling -- Vocabulary (HTML)]
+* https://calconnect.github.io/cc-ischedule/[CalConnect: Internet Calendar Scheduling Protocol (iSchedule) (HTML)]
 
 == General
 
-This document specifies the (TITLE).
+This document specifies the Internet Calendar Scheduling Protocol (iSchedule).
 
 The document is published as the following:
 
-* CalConnect CC (DOCNUMBER)
-* ISO (DOCNUMBER)
-* IETF draft-cc-ischedule
+* CalConnect CC 51010
+* IETF draft-desruisseaux-ischedule
 
 
 == Fetching the document
@@ -62,17 +61,6 @@ The generated documents are accessible under `_site/`.
 metanorma site generate --agree-to-terms
 open _site/index.html
 ----
-
-
-// == IETF: Checking against idnits
-
-// https://tools.ietf.org/tools/idnits/[idnits] is the RFC checking tool prior to
-// submissions.
-
-// [source,sh]
-// ----
-// idnits draft-calconnect-vobject-vformat.nits
-// ----
 
 
 == License

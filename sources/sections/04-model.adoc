@@ -1,0 +1,33 @@
+[[model]]
+== iSchedule Model
+
+The iSchedule design can be pictured as:
+
+[source%unnumbered]
+----
++----------+   +-----------+            +-----------+   +----------+
+| Calendar |   | Calendar  |            | Calendar  |   | Calendar |
+| Store    |   | Service   | iSchedule  | Service   |   | Store    |
+|  or      |-->|===========|----------->|===========|-->|  or      |
+| User     |   | iSchedule |            | iSchedule |   | User     |
+| Agent    |   | Sender    |            | Receiver  |   | Agent    |
++----------+   +-----------+            +-----------+   +----------+
+----
+
+When an iSchedule Sender has a scheduling message to transmit, it determines the
+iSchedule Receivers to which to deliver the message and sends the appropriate
+iSchedule message. The iSchedule Receiver verifies the authenticity and content of
+the iSchedule message and delivers it to the Calendar Service.
+
+The means by which a Calendar Store or User Agent instructs a Calendar Service,
+acting as an iSchedule Sender, to transmit scheduling messages is outside the scope
+of this document. A Calendar Service could provide support for a standard calendar
+access protocol, such as CalDAV <<RFC4791>>, <<RFC6638>> or any other protocol, to
+allow a Calendar User Agent to perform scheduling operations with users of other
+Calendar Services.
+
+Likewise, the actual processing of scheduling messages received by a Calendar
+Service, acting as an iSchedule Receiver, is also outside the scope of this
+document. Some Calendar Service implementations may decide to process some or all
+received scheduling messages, while other implementations may decide to leave that
+work to Calendar User Agent implementations.

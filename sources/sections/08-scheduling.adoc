@@ -1,0 +1,187 @@
+[[scheduling]]
+== Scheduling
+
+This section defines how an iSchedule Sender can use the HTTP POST method to submit
+a scheduling message to an iSchedule Receiver.
+
+[[schedule]]
+=== POST Method
+
+The POST method submits a scheduling message to one or more Recipients by targeting
+the request at the Request-URI of an iSchedule Receiver. The request body of a POST
+method MUST contain a scheduling message (i.e., an iCalendar object that follows the
+iTIP semantic).
+
+The submitted scheduling message will be delivered to the Recipients, with status
+information about per-recipient delivery returned in the HTTP response. However,
+when the scheduling message is a request for free-busy time, the iSchedule Receiver
+will immediately execute the free-busy request for the Recipients and return
+per-recipient iCalendar data in the response for successful free-busy queries.
+
+Every POST request MUST include the
+<<IANA_HTTP_ISCHEDULE_VERSION,"iSchedule-Version">> general header.
+
+Every POST request SHOULD include the
+<<IANA_HTTP_ISCHEDULE_MESSAGE_ID,"iSchedule-Message-ID">> request header.
+
+Every POST request MUST include the "Cache-Control" HTTP general header containing
+the cache-directives "no-cache" and "no-transform" to prevent intermediary caches
+from caching or transforming responses.
+
+Every POST request MUST include a single <<IANA_HTTP_ORIGINATOR,"Originator">>
+request header that specifies the calendar user address of the Originator of the
+scheduling message. The value of the "Originator" request header MUST match the
+value of the "ORGANIZER" iCalendar property or one of the specified "ATTENDEE"
+iCalendar properties in the scheduling message, depending on the specified "METHOD"
+iCalendar property value as summarized in the following table:
+
+[options=header,cols=2]
+|===
+|Method |Originator Requirement
+
+|PUBLISH |MUST match ORGANIZER
+|REQUEST |MUST match ORGANIZER footnote:f1[iTIP does allow an Attendee to forward a "METHOD:REQUEST" scheduling message to another attendee. However, due to complexity of managing the authorization of such requests, this specification does not allow scheduling message forwarding.]
+|REPLY |MUST match ATTENDEE
+|ADD |MUST match ORGANIZER
+|CANCEL |MUST match ORGANIZER
+|REFRESH |MUST match ATTENDEE
+|COUNTER |MUST match ATTENDEE
+|DECLINECOUNTER |MUST match ORGANIZER
+|===
+
+Every POST request MUST include one or more <<IANA_HTTP_RECIPIENT,"Recipient">>
+request headers. The value of this header is a list of one or more calendar user
+addresses and corresponds to the set of calendar users who will have the scheduling
+message delivered to them. The value of the "Recipient" request header MUST match
+the value of the "ORGANIZER" iCalendar property or one of the specified "ATTENDEE"
+iCalendar properties in the scheduling message, depending on the specified "METHOD"
+iCalendar property value as summarized in the following table:
+
+[options=header,cols=2]
+|===
+|Method |Recipient Requirement
+
+|PUBLISH |None footnote:f2[iTIP does allow an Organizer to send scheduling message to calendar users who are not listed as Attendees, e.g., to inform other calendar users of an event taking place. However, due to complexity of managing the authorization of such requests, this specification does not allow such scheduling messages.]
+|REQUEST |MUST match ATTENDEE footnote:f2[]
+|REPLY |MUST match ORGANIZER
+|ADD |MUST match ATTENDEE footnote:f2[]
+|CANCEL |MUST match ATTENDEE footnote:f2[]
+|REFRESH |MUST match ORGANIZER
+|COUNTER |MUST match ORGANIZER
+|DECLINECOUNTER |MUST match ATTENDEE
+|===
+
+The Content-Type general header MUST include the type parameters "component" and
+"method" defined in <<RFC5545>>. The value of the "component" MUST correspond to the
+iCalendar component type (e.g., "VEVENT") specified in the scheduling message. The
+value of the "method" parameter MUST be the same as the value of the "METHOD"
+iCalendar property in the scheduling message. If iCalendar data is returned in the
+response, within an IS:calendar-data XML element, then the media type of that data
+in the response MUST match the media type in the request.
+
+[[schedule-response]]
+=== Schedule Response
+
+A POST request may deliver a scheduling message to one or more calendar users
+specified in the Recipient request header. Since the behavior of each recipient may
+vary, it is useful to get response status information for each recipient in the
+overall POST response. This specification defines a new XML response to convey
+multiple recipient status.
+
+A response to a POST method that indicates status for one or more recipients MUST be
+an XML document with IS:schedule-response as its root element. This MUST contain one
+or more response elements for each recipient, with each of those containing elements
+that indicate which recipient they correspond to, the scheduling status of the
+request for that recipient, any error codes and an optional description.
+
+In the case of a free-busy request, the response elements can also contain
+calendar-data elements which contain free busy information (e.g., an iCalendar
+VFREEBUSY component) indicating the busy state of the corresponding recipient,
+assuming that the free-busy request for that recipient succeeded.
+
+Every POST response MUST include the "Cache-Control" HTTP general header containing
+the cache-directives "no-cache" and "no-transform" to prevent intermediary caches
+from caching or transforming responses.
+
+[[schedule-status-codes]]
+=== Failed Schedule Response
+
+When there is an overall, as opposed to per-recipient, failure of the POST request,
+the iSchedule Receiver SHOULD return an XML document with IS:error as its root
+element. The child elements of the IS:error element are used to indicate an error
+code and description, primarily meant for service administrators.
+
+The following XML elements are error codes which can be used within an IS:error
+element to represent errors:
+
+IS:version-not-supported:: The POST request was either missing an
+"iSchedule-Version" header, or had an "iSchedule-Version" header value for a version
+not supported by the iSchedule Receiver, as advertised in the IS:versions capability.
+
+IS:invalid-calendar-data-type:: The resource submitted in the POST request was not a
+supported media type (i.e. text/calendar) for scheduling or free-busy messages;
+
+IS:invalid-calendar-data:: The resource submitted in the POST request was not valid
+data for the media type being specified;
+
+IS:invalid-scheduling-message:: The resource submitted in the POST request did not
+obey all restrictions specified for the POST request, violating the
+IS:scheduling-message capability element, or the requirements of iTIP;
+
+IS:originator-missing:: The POST request did not include an "Originator" request
+header specifying the calendar user address of the Originator of the scheduling
+message.
+
+IS:too-many-originators:: The POST request contained more than one "Originator"
+request header.
+
+IS:originator-invalid:: The "Originator" header in the POST request did not include
+a valid calendar user address for the Originator of the scheduling message.
+
+IS:originator-denied:: The calendar user identified by the "Originator" header in
+the POST request is not allowed to use this service.
+
+IS:recipient-missing:: The POST request did not include one or more valid
+"Recipient" request headers specifying the calendar user address of users to whom
+the scheduling message will be delivered.
+
+IS:recipient-mismatch:: The POST request did not include "Recipient" request header
+values which exactly match the list of "ATTENDEE" property values in a "VFREEBUSY"
+request.
+
+IS:max-recipients:: The POST request had too many calendar user addresses specified
+in "Recipient" request headers, violating the IS:max-recipients capability.
+
+IS:attachment-type-not-supported:: The scheduling message submitted in the POST
+request had iCalendar data with "ATTACH" properties whose value type is not
+supported, violating the IS:attachments capability.
+
+IS:max-content-length:: The scheduling message submitted in the POST request had
+iCalendar data violating the IS:max-content-length capability.
+
+IS:min-date-time:: The scheduling message submitted in the POST request had
+iCalendar data violating the IS:min-date-time capability.
+
+IS:max-date-time:: The scheduling message submitted in the POST request had
+iCalendar data violating the IS:max-date-time capability.
+
+IS:max-instances:: The scheduling message submitted in the POST request had
+iCalendar data violating the IS:max-instances capability.
+
+The following are examples of response codes one would expect to be used for this
+method. Note, however, that unless explicitly prohibited any 2/3/4/5xx series
+response code may be used in a response. Typically a 403 response code would be used
+when an XML document with an IS:error element as its root is also returned.
+
+200 (OK):: The command succeeded.
+
+400 (Bad Request):: The Sender has provided an invalid scheduling message, or
+invalid iSchedule request headers.
+
+403 (Forbidden):: The Sender cannot submit a scheduling message to the specified
+Request-URI.
+
+404 (Not Found):: The URL in the Request-URI was not present.
+
+507 (Insufficient Storage):: The server did not have sufficient space to record the
+scheduling message.

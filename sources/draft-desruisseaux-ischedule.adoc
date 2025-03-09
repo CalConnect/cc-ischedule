@@ -1,0 +1,73 @@
+= Internet Calendar Scheduling Protocol (iSchedule)
+:doctype: internet-draft
+:name: draft-desruisseaux-ischedule-06
+:abbrev: iSchedule
+:ipr: trust200902
+:area: Applications
+:updates: IETF RFC 6376
+:intended-series: full-standard
+:published-date: 2017-01-01
+:fullname: Cyrus Daboo
+:lastname: Daboo
+:forename_initials: C.
+:affiliation: Apple Inc.
+:email: cyrus@daboo.name
+:contributor-uri: http://www.apple.com/
+:address: 1 Infinite Loop + \
+Cupertino, CA 95014 + \
+USA
+:fullname_2: Bernard Desruisseaux
+:lastname_2: Desruisseaux
+:forename_initials_2: B.
+:affiliation_2: Oracle Corporation
+:email_2: bernard.desruisseaux@oracle.com
+:contributor-uri_2: http://www.oracle.com/
+:address_2: 600 Blvd. de Maisonneuve West + \
+Suite 1900 + \
+Montreal, QC H3A 3J2 + \
+CANADA
+:fullname_3: Kenneth Murchison
+:lastname_3: Murchison
+:forename_initials_3: K.
+:role_3: editor
+:affiliation_3: Carnegie Mellon University
+:email_3: murch@andrew.cmu.edu
+:contributor-uri_3: http://www.cmu.edu/
+:address_3: 5000 Forbes Avenue + \
+Pittsburgh, PA 15213 + \
+USA
+:keywords: calsched, calsch, caldav, calendar, calendaring, calsify, HTTP, iCal, iCalendar, iMIP, iTIP, iRIP, iSchedule, scheduling, text/calendar
+:mn-document-class: ietf
+:mn-output-extensions: xml,rfc,txt,html,rxl
+:local-cache-only:
+:data-uri-image:
+
+include::sections/00-abstract.adoc[]
+
+include::sections/01-intro.adoc[]
+
+include::sections/04-model.adoc[]
+
+include::sections/05-overview.adoc[]
+
+include::sections/06-discovery.adoc[]
+
+include::sections/07-capabilities.adoc[]
+
+include::sections/08-scheduling.adoc[]
+
+include::sections/09-http-headers.adoc[]
+
+include::sections/10-xml-elements.adoc[]
+
+include::sections/11-security.adoc[]
+
+include::sections/12-iana.adoc[]
+
+include::sections/aa-examples.adoc[]
+
+include::sections/99-acknowledgements.adoc[]
+
+include::sections-ietf/99-references.adoc[]
+
+include::sections-ietf/99-change-history.adoc[]
