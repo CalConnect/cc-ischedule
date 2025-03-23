@@ -2,21 +2,21 @@
 [appendix]
 == Example Scheduling Transactions
 
-This section describes some example scheduling transactions that give a general idea
-of how scheduling is carried out between an iSchedule Sender and an iSchedule
-Receiver.
+This section describes some example scheduling transactions that give a general
+idea of how scheduling is carried out between an iSchedule Sender and an
+iSchedule Receiver.
 
 [[schedule-example]]
 === Example: Simple Meeting Invitation
 
-In the following example, the iSchedule Sender requests the iSchedule Receiver to
-deliver a meeting invitation (scheduling REQUEST) to the calendar user
+In the following example, the iSchedule Sender requests the iSchedule Receiver
+to deliver a meeting invitation (scheduling REQUEST) to the calendar user
 mailto:cyrus@example.org. The response indicates that delivery of the scheduling
 message was successful.
 
-.>> Request <<
 [source%unnumbered]
 ----
+>> Request <<
 POST /.well-known/ischedule HTTP/1.1
 Host: cal.example.org
 iSchedule-Version: 1.0
@@ -48,9 +48,9 @@ END:VEVENT
 END:VCALENDAR
 ----
 
-.>> Response <<
 [source%unnumbered]
 ----
+>> Response <<
 HTTP/1.1 200 OK
 Date: Thu, 02 Sep 2004 16:53:32 GMT
 Content-Type: application/xml; charset=utf-8
@@ -78,9 +78,9 @@ mailto:mike@example.org, over the time range specified by the scheduling message
 sent in the request. The response includes VFREEBUSY components with the busy time
 for one calendar user, and an error for the other calendar user.
 
-.>> Request <<
 [source%unnumbered]
 ----
+>> Request <<
 POST /.well-known/ischedule HTTP/1.1
 Host: cal.example.org
 iSchedule-Version: 1.0
@@ -108,9 +108,9 @@ END:VFREEBUSY
 END:VCALENDAR
 ----
 
-.>> Response <<
 [source%unnumbered]
 ----
+>> Response <<
 HTTP/1.1 200 OK
 Date: Thu, 02 Sep 2004 16:53:32 GMT
 Content-Type: application/xml; charset=utf-8
@@ -158,9 +158,9 @@ deliver a task assignment (scheduling REQUEST) to the calendar user
 mailto:cyrus@example.org. For some reason the verification of the request fails as
 is indicated by the error response.
 
-.>> Request <<
 [source%unnumbered]
 ----
+>> Request <<
 POST /.well-known/ischedule HTTP/1.1
 Host: cal.example.org
 iSchedule-Version: 1.0
@@ -187,9 +187,9 @@ END:VEVENT
 END:VCALENDAR
 ----
 
-.>> Response <<
 [source%unnumbered]
 ----
+>> Response <<
 HTTP/1.1 403 FORBIDDEN
 Date: Thu, 02 Sep 2004 16:53:32 GMT
 Content-Type: application/xml; charset=utf-8

@@ -1,0 +1,24 @@
+
+== Conventions
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
+"SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be
+interpreted as described in <<RFC2119>>.
+
+The Augmented BNF (ABNF) syntax used by this document to describe protocol
+elements is defined in <<RFC5234>>.
+
+Definitions of XML elements in this document use XML element type declarations
+(as found in XML Document Type Declarations), described in Section 3.2 of
+<<W3C.REC-xml-20081126>>.
+
+The namespace "urn:ietf:params:xml:ns:ischedule" is reserved for the XML
+elements defined in this specification, or in other Standards Track IETF RFCs
+written to extend iSchedule. It MUST NOT be used for proprietary extensions.
+When XML element types in this namespace are referenced in this document outside
+of the context of an XML fragment, the string "IS:" will be prefixed to the
+element type names.
+
+Note that the XML declarations used in this document are incomplete, in that
+they do not include namespace information. Thus, the reader MUST NOT use these
+declarations as the only way to validate iSchedule XML element types.

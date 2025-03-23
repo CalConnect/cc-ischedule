@@ -1,7 +1,7 @@
 [abstract]
 == Abstract
 
-This document defines the Internet Calendar Scheduling Protocol (iSchedule), which is
-a binding from the iCalendar Transport-independent Interoperability Protocol (iTIP) to
-the Hypertext Transfer Protocol (HTTP) to enable interoperability between calendaring
-and scheduling systems over the Internet.
+This document defines the Internet Calendar Scheduling Protocol (iSchedule),
+which is a binding from the iCalendar Transport-independent Interoperability
+Protocol (iTIP) to the Hypertext Transfer Protocol (HTTP) to enable
+interoperability between calendaring and scheduling systems over the Internet.
