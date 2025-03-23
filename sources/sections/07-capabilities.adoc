@@ -1,11 +1,11 @@
 [[capabilities]]
 == iSchedule Receiver Capabilities
 
-iSchedule Receivers supporting the features described in this document MUST allow
-iSchedule Senders to query their capabilities by accepting GET requests targeted at
-the Request-URI found during discovery (<<discovery>>). The response body for a
-successful GET request targeted at this URI MUST be an XML document with
-IS:query-result as its root element.
+iSchedule Receivers supporting the features described in this document MUST
+allow iSchedule Senders to query their capabilities by accepting GET requests
+targeted at the Request-URI found during discovery (<<discovery>>). The response
+body for a successful GET request targeted at this URI MUST be an XML document
+with IS:query-result as its root element.
 
 [NOTE]
 ====
@@ -15,17 +15,17 @@ iSchedule Senders to query capabilities with "conditional GET" requests (see
 ====
 
 iSchedule Receivers SHOULD use normal HTTP expiration mechanisms (as per
-<<RFC7234,section=5.2>>) to ensure caches do not cache the capabilities response for
-too long. iSchedule Senders SHOULD use normal HTTP conditional GET requests when
-re-checking capabilities to avoid re-transferring already cached data.
+<<RFC7234,section=5.2>>) to ensure caches do not cache the capabilities response
+for too long. iSchedule Senders SHOULD use normal HTTP conditional GET requests
+when re-checking capabilities to avoid re-transferring already cached data.
 
 iSchedule Senders SHOULD use the information in the capabilities to determine
-whether the iSchedule Receiver supports a version of the protocol that the iSchedule
-Sender can use, and if not, not issue any iSchedule requests with scheduling
-messages to the iSchedule Receiver. iSchedule Senders SHOULD verify that the
-scheduling message to be sent to the iSchedule Receiver is in line with the
-restrictions on scheduling messages indicated by the capabilities before sending the
-scheduling message.
+whether the iSchedule Receiver supports a version of the protocol that the
+iSchedule Sender can use, and if not, not issue any iSchedule requests with
+scheduling messages to the iSchedule Receiver. iSchedule Senders SHOULD verify
+that the scheduling message to be sent to the iSchedule Receiver is in line with
+the restrictions on scheduling messages indicated by the capabilities before
+sending the scheduling message.
 
 [[ISCHEDULE_RECEIVER_CAPABILITIES_EXAMPLE]]
 === Example: Querying iSchedule Receiver Capabilities

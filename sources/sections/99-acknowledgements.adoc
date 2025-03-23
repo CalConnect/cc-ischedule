@@ -15,5 +15,5 @@ Simon Vaillancourt, and
 Wilfredo Sanchez Vega.
 
 The authors would also like to thank CalConnect, The Calendaring and Scheduling
-Consortium, for advice with this specification, and for organizing interoperability
-testing events to help refine it.
+Consortium, for advice with this specification, and for organizing
+interoperability testing events to help refine it.
