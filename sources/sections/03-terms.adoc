@@ -1,2 +1,28 @@
 [[terms]]
-== Terms and Definitions
+== Terms and definitions
+
+This specification reuses much of the same terminology as <<RFC5545,iCalendar>>,
+<<RFC5546,iTIP>>, and <<RFC7230,HTTP>>. Additional terms used by this
+specification are:
+
+=== Scheduling message
+
+An <<RFC5545,iCalendar>> object conforming to the requirements of
+<<RFC5546,iTIP>>.
+
+=== Originator
+
+The calendar user who is sending a scheduling message to one or more other
+calendar users.
+
+=== Recipient
+
+A calendar user to whom a scheduling message is being sent.
+
+=== iSchedule Sender
+
+The iSchedule service responsible for sending scheduling messages.
+
+=== iSchedule Receiver
+
+The iSchedule service responsible for receiving scheduling messages.

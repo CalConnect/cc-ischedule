@@ -1,8 +1,7 @@
 [[scope]]
 == Scope
 
-//This document defines the Internet Calendar Scheduling Protocol (iSchedule), which is a binding from the iCalendar Transport-independent Interoperability Protocol (iTIP) to the Hypertext Transfer Protocol (HTTP) to enable interoperability between calendaring and scheduling systems over the Internet.
-
-//The protocol defined in this document provides a means for calendaring and scheduling systems to perform scheduling operations such as scheduling, rescheduling, responding to scheduling requests, canceling scheduled calendar components, and searching for busy time information with users of other calendaring and scheduling systems on the Internet.
-
-//This document does not define any new calendaring and scheduling functionality beyond what is already defined in the iCalendar Transport-independent Interoperability Protocol (iTIP). Instead, it defines how iTIP messages can be transported over HTTP to enable direct server-to-server communication between different calendaring and scheduling systems.
+This document defines the Internet Calendar Scheduling Protocol (iSchedule),
+which is a binding from the iCalendar Transport-independent Interoperability
+Protocol (iTIP) to the Hypertext Transfer Protocol (HTTP) to enable
+interoperability between calendaring and scheduling systems over the Internet.

@@ -2,15 +2,16 @@
 == iSchedule Overview
 
 This section provides an overview of the various steps involved for iSchedule
-Senders and Receivers to transmit scheduling messages between Calendar Services. It
-references later sections describing the precise details of each step.
+Senders and Receivers to transmit scheduling messages between Calendar Services.
+It references later sections describing the precise details of each step.
 
 === iSchedule Sender Actions
 
 A Calendar Service will generate an iTIP <<RFC5546>> scheduling message for
-transmission. It will additionally provide details of the Originator and Recipients.
-The Calendar Service will "submit" the scheduling message and details to the
-iSchedule Sender, through a process that is outside the scope of this document.
+transmission. It will additionally provide details of the Originator and
+Recipients. The Calendar Service will "submit" the scheduling message and
+details to the iSchedule Sender, through a process that is outside the scope of
+this document.
 
 The iSchedule Sender MUST verify the authenticity of the Originator and the
 Originator's authorization to send the scheduling message. In particular the
@@ -18,41 +19,44 @@ Originator's authorization to send the scheduling message. In particular the
 address. The process by which this authentication and authorization is done is
 outside the scope of this document.
 
-For each Recipient, the iSchedule Sender will attempt to lookup a matching iSchedule
-Receiver to which the iSchedule message can be sent, following the rules in
-<<discovery>>. After determining the iSchedule Receiver to use, the iSchedule Sender
-MUST check the capabilities of the iSchedule Receiver to ensure it will be able to
-accept the scheduling message that needs to be sent, as per <<capabilities>>.
+For each Recipient, the iSchedule Sender will attempt to lookup a matching
+iSchedule Receiver to which the iSchedule message can be sent, following the
+rules in <<discovery>>. After determining the iSchedule Receiver to use, the
+iSchedule Sender MUST check the capabilities of the iSchedule Receiver to ensure
+it will be able to accept the scheduling message that needs to be sent, as per
+<<capabilities>>.
 
-The iSchedule Sender MUST group together Recipients for whom the iSchedule Receiver
-is the same, so that a single scheduling message is sent for multiple Recipients,
-within the limits of the <<max-recipients,IS:max-recipients>> value specified in the
-iSchedule Receiver's capabilities.
+The iSchedule Sender MUST group together Recipients for whom the iSchedule
+Receiver is the same, so that a single scheduling message is sent for multiple
+Recipients, within the limits of the <<max-recipients,IS:max-recipients>> value
+specified in the iSchedule Receiver's capabilities.
 
-For each group of Recipients handled by the same iSchedule Receiver, the iSchedule
-Sender will construct an HTTP request, as per <<scheduling>>, with the body of the
-HTTP request containing the iSchedule message. Note, in the case of a "VFREEBUSY"
-iSchedule message, the iSchedule Sender MUST ensure that iCalendar "ATTENDEE"
-properties in the iSchedule message match one-for-one with the Recipients listed in
-the HTTP request header.
+For each group of Recipients handled by the same iSchedule Receiver, the
+iSchedule Sender will construct an HTTP request, as per <<scheduling>>, with the
+body of the HTTP request containing the iSchedule message. Note, in the case of
+a "VFREEBUSY" iSchedule message, the iSchedule Sender MUST ensure that iCalendar
+"ATTENDEE" properties in the iSchedule message match one-for-one with the
+Recipients listed in the HTTP request header.
 
-The iSchedule Sender then sends the HTTP request to the iSchedule Receiver handling
-the Recipient group, and receives the HTTP response, which will be an XML document
-with either an IS:schedule-response or IS:error element as the root element.
+The iSchedule Sender then sends the HTTP request to the iSchedule Receiver
+handling the Recipient group, and receives the HTTP response, which will be an
+XML document with either an IS:schedule-response or IS:error element as the root
+element.
 
-The iSchedule Sender aggregates the results for each Recipient group receiving an
-iSchedule message, and returns the resulting status information for each Recipient
-to the Calendar Service that generated the schedule message. The process by which
-this is done is outside the scope of this document.
+The iSchedule Sender aggregates the results for each Recipient group receiving
+an iSchedule message, and returns the resulting status information for each
+Recipient to the Calendar Service that generated the schedule message. The
+process by which this is done is outside the scope of this document.
 
 === iSchedule Receiver Actions
 
 iSchedule Receivers MUST provide a capabilities document to Senders, as per
 <<capabilities>>.
 
-Once the authenticity of the message is confirmed, the iSchedule Receiver delivers
-the scheduling message to the indicated recipients, collects and aggregates the
-delivery status for each recipient, and returns the result in the HTTP response body.
+Once the authenticity of the message is confirmed, the iSchedule Receiver
+delivers the scheduling message to the indicated recipients, collects and
+aggregates the delivery status for each recipient, and returns the result in the
+HTTP response body.
 
 In the event of a processing error related to the overall request, iSchedule
 Receivers MUST return an error response as per <<schedule-status-codes>>.

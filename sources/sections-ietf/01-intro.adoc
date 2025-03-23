@@ -70,3 +70,47 @@ different implementations.
 This document does not attempt to repeat the specification of concepts or
 definitions from these other documents. Where possible, references are made to
 the document that provides the specification of these concepts or definitions.
+
+=== Terminology
+
+This specification reuses much of the same terminology as <<RFC5545,iCalendar>>,
+<<RFC5546,iTIP>>, and <<RFC7230,HTTP>>. Additional terms used by this
+specification are:
+
+Scheduling message:: An <<RFC5545,iCalendar>> object conforming to the
+requirements of <<RFC5546,iTIP>>.
+
+Originator:: The calendar user who is sending a scheduling message to one or
+more other calendar users.
+
+Recipient:: A calendar user to whom a scheduling message is being sent.
+
+iSchedule Sender:: The iSchedule service responsible for sending scheduling
+messages.
+
+iSchedule Receiver:: The iSchedule service responsible for receiving scheduling
+messages.
+
+=== Notational Conventions
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
+"SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be
+interpreted as described in <<RFC2119>>.
+
+The Augmented BNF (ABNF) syntax used by this document to describe protocol
+elements is defined in <<RFC5234>>.
+
+Definitions of XML elements in this document use XML element type declarations
+(as found in XML Document Type Declarations), described in Section 3.2 of
+<<W3C.REC-xml-20081126>>.
+
+The namespace "urn:ietf:params:xml:ns:ischedule" is reserved for the XML
+elements defined in this specification, or in other Standards Track IETF RFCs
+written to extend iSchedule. It MUST NOT be used for proprietary extensions.
+When XML element types in this namespace are referenced in this document outside
+of the context of an XML fragment, the string "IS:" will be prefixed to the
+element type names.
+
+Note that the XML declarations used in this document are incomplete, in that
+they do not include namespace information. Thus, the reader MUST NOT use these
+declarations as the only way to validate iSchedule XML element types.
